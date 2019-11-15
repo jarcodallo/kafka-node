@@ -3,7 +3,7 @@ services:
   zookeeper:
     image: jplock/zookeeper
   kafka:
-    image: wurstmeister/kafka:latest
+    image: wurstmeister/kafka:2.12-2.3.0
     ports:
       - "9092:9092"
       - "9093:9093"
@@ -25,3 +25,29 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./docker/certs:/var/private/ssl/certs
       - ./docker/sasl:/var/private/sasl
+  consumer-1:
+    image: node:11
+    user: node
+    working_dir: /home/node/app
+    environment:
+      DEBUG: kafka-node:*
+    depends_on:
+      - kafka
+    volumes:
+      - ./:/home/node/app
+    expose:
+      - "8082"
+    command: "node integrations/consumers/consumer-test-1.js"
+  consumer-2:
+    image: node:11
+    user: node
+    working_dir: /home/node/app
+    environment:
+      DEBUG: kafka-node:*
+    depends_on:
+      - kafka
+    volumes:
+      - ./:/home/node/app
+    expose:
+      - "8083"
+    command: "node integrations/consumers/consumer-test-2.js"
