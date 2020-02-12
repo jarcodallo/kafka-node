@@ -21,7 +21,7 @@ const ConsumerGroup = require('../../lib/consumerGroup');
 const run = async () => {
   const topic = 'kafka-test-same-groupId';
   const consumerGroupOptions = {
-    kafkaHost: 'kafka:9092',
+    kafkaHost: 'kafka-1:19092,kafka-2:19093,kafka-3:19094',
     id: `kafka.consumer-group.client.test.0.${uuid.v4()}`,
     groupId: 'kafka-test-group',
     connectOnReady: true,
